@@ -1,0 +1,19 @@
+** Reminder ** all incremental deliveries need to be in by today 
+- I will have my checklist in class this evening - 
+please have them ready to be marked off.
+
+ Incremental Deliveries
+ 1       Requirements
+ 2       Use Cases
+ 3       High Level Architecture
+ 4       Class Diagram
+ 5       Sequence Diagram
+ 6       Repo Setup - Add me as user; all work added to it
+ 7       SW Project Management Plan - Task Breakdown; Schedule
+ 8       Presentation - Contributors only get credit
+ 9       Technical Review Documentation (agenda, checklists, roles)
+ 10      Outcome of reviews/Incorporating changes (checked in to repo)
+ 11      Unit Tests
+ 12      Integration Tests
+ 13      System Test Plan
+ 14      Deployment Plan

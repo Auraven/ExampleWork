@@ -1,0 +1,13 @@
+14 deploy
+The code will be deployed and is currently running at this URL
+
+http://www.starcktech.com/TrippleGroup/runJava.html
+
+with a mysql database running on starcktech.com/tripplegroup
+
+all code from repo will be tranferred to the trippleGroup URL
+the run Java file runs the applet
+the sql file builds the database
+the gui adds user functionality
+the user need only to get to website with login and password the
+database will run along with the java code on the server and update accordingly

@@ -1,0 +1,14 @@
+ 9       Technical Review Documentation (agenda, checklists, roles)
+
+Roles see file 7 on check list
+
+We planned around mid february to build the LCMS prototype.
+We are using an agile modeling methodology.
+After planning we devided up roles into four groups Database, Network, GUI, and Simulator
+Our Planning method led to role switching and jobs were redevided and the plan was changed.
+Extreme Agile Modeling Cycle.
+Plan integrate test replan
+We switched from local to a real server around mid semester.
+We got the database connected.
+We got the simulator connected
+Lastly we have to get all connected to GUI and pull out hard coded sql.

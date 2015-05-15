@@ -1,0 +1,68 @@
+//Integration Test - Login GUI, Authentication
+
+/**
+*	The LCMS is a Java Applet and is run from the applet html element
+*/
+public class LCMS extends JApplet{
+	private Client client;
+	/**
+	*	The Applet's auto run method when initialised via HTML
+	*	Creates the client gui
+	*	Connects to webserver
+	* 	Prompts user for login credentials
+	*/
+	@Override
+	public void init(){
+		client = new Client(this);
+		client.setPanel(Client.LOGIN);
+	}
+	
+	public Client getClient(){
+		return client;
+	}
+}
+
+public class Client extends JPanel{
+	private ArrayList<JPanel> panels;
+	private LCMS lcms;
+	private int currentPanel;
+	public final int LOGIN = 0;
+	/**
+	*	Constructs the Client, creates all of the panels for users to interact with
+	*/
+	public Client(LCMS lcms){
+		panels.add(new PLogin());
+	}
+	
+	public void setPanel(int index){
+		panels.get(currentPanel).setVisible(false);
+		lcms.remove(panels.get(currentPanel));
+		currentPanel = index;
+		lcms.add(panels.get(currentPanel));
+		panels.get(currentPanel).setVisible(true);
+	}
+}
+public class PLogin extends JPanel implements ActionListener{
+	/**
+	*	Creates the form to Authenticate users and bridge them to the server
+	*/
+	public PLogin(){
+		//Add form/panel elements for user to interact with here
+	}
+	/**
+	*	The actual authentication code that takes a formatted user input String
+	*/
+	public boolean authenticate(String accessKey){
+		if(Authenticated){
+			return true;
+		}
+		return false;
+	}
+	/**
+	*	Listen for when user generates an action through activating JPanel elements
+	*/
+	@Override
+	public void actionPerformed(ActionEvent evt) {
+		//Initiate User login, contact mysql database to authenticate user credentials
+	}	
+}

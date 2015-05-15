@@ -1,0 +1,124 @@
+//System Test - Applet Initialization, Login, Use SImulator, Logout
+
+/**
+*	The LCMS is a Java Applet and is run from the applet html element
+*/
+public class LCMS extends JApplet{
+	private Client client;
+	/**
+	*	The Applet's auto run method when initialised via HTML
+	*	Creates the client gui
+	*	Connects to webserver
+	* 	Prompts user for login credentials
+	*/
+	@Override
+	public void init(){
+		client = new Client(this);
+		client.setPanel(Client.LOGIN);
+	}
+	
+	public Client getClient(){
+		return client;
+	}
+}
+
+public class Client extends JPanel{
+	private ArrayList<JPanel> panels;
+	private LCMS lcms;
+	private int currentPanel;
+	public final int LOGIN = 0;
+	public final int MENU = 1;
+	public final int SIMULATOR = 2;
+	/**
+	*	Constructs the Client, creates all of the panels for users to interact with
+	*/
+	public Client(LCMS lcms){
+		panels.add(new PLogin(this));
+		panels.add(new PMenu(this));
+		panels.add(new PSimulator(this));
+	}
+	
+	/**
+	*	Cleans up the system before logging out.
+	*/
+	public void logout(){
+		setPanel(LOGIN);
+	}
+	public void setPanel(int index){
+		panels.get(currentPanel).setVisible(false);
+		lcms.remove(panels.get(currentPanel));
+		currentPanel = index;
+		lcms.add(panels.get(currentPanel));
+		panels.get(currentPanel).setVisible(true);
+	}
+}
+public class PLogin extends JPanel implements ActionListener{
+	private Client client;
+	/**
+	*	Creates the form to Authenticate users and bridge them to the server
+	*/
+	public PLogin(Client client){
+	this.client = client;
+		//Add form/panel elements for user to interact with here
+	}
+	/**
+	*	The actual authentication code that takes a formatted user input String
+	*/
+	public boolean authenticate(String accessKey){
+		if(Authenticated){
+			return true;
+		}
+		return false;
+	}
+	/**
+	*	Listen for when user generates an action through activating JPanel elements
+	*/
+	@Override
+	public void actionPerformed(ActionEvent evt) {
+		//Initiate User login, contact mysql database to authenticate user credentials
+		if(authenticate()){
+			client.lcms.setPanel(Client.MENU);
+		}
+	}	
+}
+/**
+*	The menu that allows users to navigate the Applet
+*/
+public class PMenu extends JPanel implements ActionListener{
+	private Client client;
+	
+	/**
+	*	Creates the navigable elements
+	*/
+	public PMenu(Client client){
+		this.client = client;
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent evt) {
+		if(evt.getName().equals("simulator")){
+			client.setPanel(Client.SIMULATOR));
+		}
+		else if(evt.getName().equals("logout")){
+			client.logout();
+		}
+	}
+}
+/**
+*	Holds the methods the access the simulator.
+*/
+public class PSimulator extends JPanel implements ActionListener{
+	private Client client;
+	private ATCS atcs; // The actual Air Traffic Control Simulator
+	/**
+	*	Creates the window for the simulator.
+	*/
+	public PSimulator(Client client){
+		this.client = client;
+		atcs = new ATCS();
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent evt) {
+	}
+}

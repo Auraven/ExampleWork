@@ -1,0 +1,44 @@
+Air Traffic Controller Simulator COSC 412 Group Project
+
+Preliminary informal first meeting with client/ teacher 
+Q and A 
+
+Q1 What platform?
+A1 Something web based (local is okay).  
+
+Q2 What are we aiming for?
+A2 ATC to mange goals 
+		-> Do I know and training of goal ofthe day
+		-> Be able to Taylor a simulator int project
+		-> Gives feedback
+
+Q3 Time to quit?
+A3 configure, be able to change
+
+Q4 Security
+A4 Enter personal info, password
+
+Q5 quizes and scenarios
+A5 No text based quizes
+
+Q6 Who are the users?
+A6 trainee,admin managing, managers, gov't
+
+
+Other notes on preliminary meeting
+	Local web Based 
+	Sim Test DB GUI 
+	
+Functional Non Functional
+		-> General to specific
+
+Project Components so far:
+
+Google Doc
+Local Web
+Flight API - MS Flight Sim 
+( for now or find free open source must have API)
+REPOSITORY -> GIT HUB		
+Email Contacts
+
+TO DO WRITE REQUIREMENTS					

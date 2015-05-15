@@ -1,0 +1,44 @@
+//Unit Test - Applet Initialization, Client Creation
+
+/**
+*	The LCMS is a Java Applet and is run from the applet html element
+*/
+public class LCMS extends JApplet{
+	private Client client;
+	/**
+	*	The Applet's auto run method when initialised via HTML
+	*	Creates the client gui
+	*	Connects to webserver
+	* 	Prompts user for login credentials
+	*/
+	@Override
+	public void init(){
+		client = new Client(this);
+		//client.setPanel(Client.LOGIN);
+	}
+	
+	public Client getClient(){
+		return client;
+	}
+}
+public class Client extends JPanel{
+	private ArrayList<JPanel> panels;
+	private LCMS lcms;
+	private int currentPanel;
+	//public final int LOGIN = 0;
+	/**
+	*	Constructs the Client, creates all of the panels for users to interact with
+	*/
+	public Client(LCMS lcms){
+		//Add panels here
+		//panels.add(new PLogin());
+	}
+	
+	public void setPanel(int index){
+		panels.get(currentPanel).setVisible(false);
+		lcms.remove(panels.get(currentPanel));
+		currentPanel = index;
+		lcms.add(panels.get(currentPanel));
+		panels.get(currentPanel).setVisible(true);
+	}
+}

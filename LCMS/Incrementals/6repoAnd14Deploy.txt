@@ -1,0 +1,18 @@
+ 6       Repo Setup - Add me as user; all work added to it
+ 
+Professor Broadwater added Group 3 as users on git hub class week 2.
+
+our repo is at this URL
+
+https://github.com/rebeccabroadwater/Group3
+ 
+All working code is in master trunk.  the branches were mostly for 
+git practice. 
+
+The code will be deployed and is currently running at this URL
+
+http://www.starcktech.com/TrippleGroup/runJava.html
+
+with a mysql database running on starcktech.com/tripplegroup
+
+
