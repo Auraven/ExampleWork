@@ -1,0 +1,32 @@
+Group Project – Part I
+
+The FAA has released a Request for Proposal (RFP) with a need to modernize the system which manages the training of their air traffic controllers.  The purpose of the new training system is to manage the training content for controllers (aka a learning content management system or LCMS) but the LCMS does not just manage written lessons plans and give the trainee a written quiz; instead it provides the trainee with an interactive training experience to test how the controller responds to real-life situations.  The FAA has made it mandatory that a presentation of the final or “to-be” solution along with a working prototype be ready for demonstration in May 2015 with the understanding that a full, working solution cannot be ready in the given timeframe. 
+
+The system will need to have the following capabilities:
+
+1.	Persist training goals and courses
+2.	Provide an intuitive GUI to allow training administrators to enter new lesson goals, course lesson plans, view user quiz/evaluation results, etc.
+3.	Provide an interactive solution (aka simulator) for the user to take the evaluation.  
+4.	Generate a random evaluation or quiz for each lesson plan
+5.	Store trainee information 
+6.	Allow a controller trainee to select a goal and have the LCMS create a customized, interactive lesson plan.
+a.	The lesson planner should be "smart" enough to generate a lesson based on previous evaluations.  
+b.	Trainees should be able to view reports of all their training results
+7.	Allow management view training reports for their employees.
+8.	Allow government auditors to view reports related to time spent training the controller
+a.	Done for legal reasons as controllers are required to spend a certain number of hours per year “advancing their knowledge” or training.
+
+
+
+Part I:  The emphasis of the first part of the project is planning.  I will be your program manager and Subject Matter Expert (SME) who is knowledgeable in the needs of the government for this particular project – keep in mind that while I am skilled in the needs of the government I am also not overly skilled in the use of a computer nor do I have any programming experience.    
+Your deliverables for the first part include the following:
+-	Use Cases
+-	Requirements
+-	Risks & mitigation
+-	LOE
+-	Project Schedule (include task, assignee, days to complete)
+-	Software Process selection (include configuration management)
+-	Design (prototype and final “to-be”solution)
+
+
+The deliverables will be due on a rolling basis that match up with the week’s lecture.  Each week we will dedicate the second portion of class to group work where I can spend time with each team to answer questions and provide feedback.  We will have a mid-semester status presentation right before spring break (details to be announced).    
