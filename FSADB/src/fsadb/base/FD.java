@@ -2,6 +2,7 @@ package fsadb.base;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Hashtable;
 
 public class FD {
@@ -10,11 +11,18 @@ public class FD {
 	
 	public static void main(String[] args){
 		connect("testdb");
+		executeUpdate("CREATE TABLE logs");
+		executeUpdate("INSERT INTO logs VALUES(id:1, text:Crap_this_will_get_squished_unless_I_use_underscores,time:" + Calendar.getInstance().getTime() + ")");
 		for(Result r: executeQuery("SELECT * FROM users").getResults()){
 			System.out.println("id: " + r.getString("id"));
 			System.out.println("username: " + r.getString("username"));
 			System.out.println("firstname: " + r.getString("firstname"));
 			System.out.println("lastname: " + r.getString("lastname"));			
+		}
+		for(Result r: executeQuery("SELECT * FROM logs").getResults()){
+			System.out.println("id: " + r.getString("id"));
+			System.out.println("log: " + r.getString("text"));
+			System.out.println("time: " + r.getString("time"));
 		}
 	}
 	
