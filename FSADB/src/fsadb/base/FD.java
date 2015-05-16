@@ -1,6 +1,7 @@
 package fsadb.base;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Hashtable;
 
 public class FD {
@@ -8,13 +9,8 @@ public class FD {
 	private static Hashtable<String, File> tableFolders;
 	
 	public static void main(String[] args){
-		//createDatabase("testdb");
 		connect("testdb");
-		executeUpdate("CREATE TABLE scores");
-		executeUpdate("INSERT INTO scores VALUES(id:1,username:Auraven,score:100)");
-		executeUpdate("INSERT INTO users VALUES(id:2,username:Zeddie,firstname:Dylan,lastname:Harbin)");
-		ResultSet users = executeQuery("SELECT * FROM users");
-		for(Result r: users.getResults()){
+		for(Result r: executeQuery("SELECT * FROM users").getResults()){
 			System.out.println("id: " + r.getString("id"));
 			System.out.println("username: " + r.getString("username"));
 			System.out.println("firstname: " + r.getString("firstname"));
@@ -72,17 +68,20 @@ public class FD {
 			File pvalue = new File(pkey.getPath() + "/" + passoc[1]);
 			if(!pvalue.exists()){
 				pvalue.mkdir();
-				for(int i = 1; i < valuekeys.length; i++){
-					String[] assoc = valuekeys[i].split(":");
-					File key = new File(pvalue.getPath() + "/" + assoc[0]);
-					key.mkdir();
-					File value = new File(key.getPath() + "/" + assoc[1]);
-					value.mkdir();
+			}
+			for(int i = 1; i < valuekeys.length; i++){
+				String[] assoc = valuekeys[i].split(":");
+				File key = new File(pvalue.getPath() + "/" + assoc[0]);
+				key.mkdir();
+				File value = new File(key.getPath() + "/" + assoc[1]);
+				try {
+					value.createNewFile();
+				} catch (IOException e) {
+					e.printStackTrace();
+					return false;					
 				}
-				return true;
-			}else{
-				return false;
-			}			
+			}
+			return true;		
 		}else if(query.contains("CREATETABLE")){
 			File tableFolder = new File(dbFolder.getPath() + "/" + query.replace("CREATETABLE", ""));
 			if(!tableFolder.exists()){

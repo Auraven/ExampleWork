@@ -19,4 +19,7 @@ public class Result {
 	public String getString(String field){
 		return set.get(field).getName();
 	}
+	public File getFile(String field){
+		return set.get(field);
+	}
 }
