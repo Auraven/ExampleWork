@@ -3,13 +3,24 @@ package fsadb.base;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class FD {
-	private static File dbFolder;
-	private static Hashtable<String, File> tableFolders;
+	private File dbFolder;
+	private Hashtable<String, File> tableFolders;
+	private ArrayList<FD> subbase;
 
-	public static ResultSet execute(String query){
+	public static void main(String[] args){
+		FD fd = new FD();
+		fd.connect("testdb");
+		fd.execute("CREATE<>users<>id>>username>>firstname>>lastname>>subinfo");
+		fd.execute("INSERT<>users<>AUTONUMBER>>Auraven>>Dylan>>Harbin>>info<>null>>null>>null>>DATABASE");
+	}
+	
+	public FD(){}
+	
+	public ResultSet execute(String query){
 		//ACTION<>TABLE<>KEYS<>VALUES
 		query = formatQuery(query);
 		String[] args = query.split("<>");
@@ -49,43 +60,22 @@ public class FD {
 		case "CREATE": //"CREATE<>tablename<>keys<>values"
 			tf = new File(dbFolder.getPath() + "/" + args[1]);
 			if(tf.mkdir()){
-				config = new File(tf.getPath() + "/$config");
-				if(config.mkdir()){
-					keys = args[2].split(">>");
-					values = null;
-					if(args.length == 4){
-						values = args[3].split(">>");
-					}
-					File pk = new File(config.getPath() + "/" + keys[0]);
-					File vf = null;					
-					if(pk.mkdir()){
-						if(values != null){
-							vf = new File(pk.getPath() + "/" + values[0]);
-							try {
-								vf.createNewFile();
-							} catch (IOException e) {}
-						}
-						for(int i = 1; i < keys.length; i++){
-							pk = new File(pk.getPath() + "/" + keys[i]);
-							pk.mkdir();
-							if(values != null){
-								try{
-									vf = new File(pk.getPath() + "/" + values[i]);
-									try {
-										vf.createNewFile();
-									} catch (IOException e) {}
-								}catch(Exception e){}								
-							}
-						}
-						tableFolders.put(tf.getName(), tf);
-					}					
+				keys = args[2].split(">>");
+				values = null;
+				if(args.length == 4){
+					values = args[3].split(">>");
 				}
+				mktable(tf, keys, values);
 			}
 			return null;
-		case "INSERT": //"INSERT<>tablename<>values"
+		case "INSERT": //"INSERT<>tablename<>values<>filedata"
 			tf = tableFolders.get(args[1]);
 			config = tf.listFiles()[0];
 			values = args[2].split(">>");
+			String[] filedata = null;
+			if(args.length == 4){
+				filedata = args[3].split(">>");
+			}
 			File cpk = config.listFiles()[0];
 			File pk = new File(tf.getPath() + "/" + cpk.getName());
 			if(!pk.exists()){
@@ -100,9 +90,52 @@ public class FD {
 					if(kf.mkdir()){
 						File vf = new File(kf.getPath() + "/" + parseValue(kf, values[i]));
 						try {
-							vf.createNewFile();
+							if(filedata != null){
+								try{
+									String data = filedata[i - 1];
+									if(data.equals("FOLDER")){
+										vf.mkdir();
+									}else if(data.startsWith("DATABASE")){
+										vf.mkdir();
+										new File(vf.getPath() + "/$db").mkdir();
+										String[] temp_dkeys = data.split("<<");
+										String[] dkeys = new String[temp_dkeys.length - 1];
+										for(int j = 1; j < temp_dkeys.length; j++){
+											dkeys[j - 1] = temp_dkeys[j];
+										}
+										FD sub = new FD();
+										sub.connect(vf.getPath());
+										subbase.add(sub); 
+									}else if(data.startsWith("TABLE")){
+										vf.mkdir();
+										String[] temp_dkeys = data.split("<<");
+										String[] dkeys = new String[temp_dkeys.length - 1];
+										for(int j = 1; j < temp_dkeys.length; j++){
+											dkeys[j - 1] = temp_dkeys[j];
+										}
+										mktable(vf, dkeys, null);
+									}else{
+										vf.createNewFile();
+										PrintWriter fileOut = new PrintWriter(vf);
+										fileOut.print(filedata[i - 1]);
+										fileOut.close();
+									}									
+								}catch(Exception e){
+									try {
+										vf.createNewFile();
+										i++;
+									} catch (IOException e1) {e1.printStackTrace();}
+								}
+							}else{
+								vf.createNewFile();
+							}
 							i++;
-						} catch (IOException e) {}							
+						} catch (IOException e){
+							try {
+								vf.createNewFile();
+								i++;
+							} catch (IOException e1) {e1.printStackTrace();}
+						}							
 					}
 				}
 			}
@@ -142,7 +175,35 @@ public class FD {
 		}
 		return value;
 	}
-	public static ResultSet executeQuery(String query){
+	public void mktable(File tf, String[] keys, String[] values){		
+		File config = new File(tf.getPath() + "/$config");
+		if(config.mkdir()){
+			File pk = new File(config.getPath() + "/" + keys[0]);
+			File vf = null;					
+			if(pk.mkdir()){
+				if(values != null){
+					vf = new File(pk.getPath() + "/" + values[0]);
+					try {
+						vf.createNewFile();
+					} catch (IOException e) {}
+				}
+				for(int i = 1; i < keys.length; i++){
+					pk = new File(pk.getPath() + "/" + keys[i]);
+					pk.mkdir();
+					if(values != null){
+						try{
+							vf = new File(pk.getPath() + "/" + values[i]);
+							try {
+								vf.createNewFile();
+							} catch (IOException e) {}
+						}catch(Exception e){}								
+					}
+				}
+				tableFolders.put(tf.getName(), tf);
+			}					
+		}
+	}
+	public ResultSet executeQuery(String query){
 		query = formatQuery(query);			
 		
 		if(query.contains("SELECT")){			
@@ -192,7 +253,7 @@ public class FD {
 		}
 		return null;
 	}
-	public static boolean executeUpdate(String query){
+	public boolean executeUpdate(String query){
 		query = formatQuery(query);	
 
 		if(query.contains("INSERTINTO")){
@@ -327,7 +388,7 @@ public class FD {
 		query = temp_query;
 		return query;
 	}
-	public static void deleteFolder(File cur){
+	public void deleteFolder(File cur){
 		if(cur.isDirectory()){
 			for(File sub: cur.listFiles()){
 				deleteFolder(sub);
@@ -337,30 +398,53 @@ public class FD {
 			cur.delete();
 		}
 	}
-	public static int createDatabase(String dbFolderPath){
+	public int createDatabase(String dbFolderPath){
 		dbFolder = new File(dbFolderPath);
 		if(dbFolder.exists()){
 			return 2;
 		}else if(dbFolder.mkdir()){
-			return 1;		
+			File dk = new File(dbFolder.getPath() + "/$db");
+			if(new File(dbFolder.getPath() + "/$db").mkdir()){
+				return 1;	
+			}else{
+				return 3;
+			}				
 		}else{
 			return 0;
 		}
 	}	
-	public static boolean connect(String dbFolderPath){
+	public boolean connect(String dbFolderPath){
+		subbase = new ArrayList<FD>();
 		dbFolder = new File(dbFolderPath);
 		tableFolders = new Hashtable<String, File>();
 		if(dbFolder.exists() && dbFolder.isDirectory()){
 			for(File tf: dbFolder.listFiles()){
 				if(tf.isDirectory() && !tf.getName().contains("?")){
 					tableFolders.put(tf.getName(), tf);
+					try{
+						File pv = tf.listFiles()[1].listFiles()[0];
+						for(File kf: pv.listFiles()){
+							try{
+								File kv = kf.listFiles()[0];
+								if(kv.isDirectory()){
+									if(kv.listFiles().length > 0){
+										if(kv.listFiles()[0].getName().equals("$db")){
+											FD sdb = new FD();
+											sdb.connect(kv.getPath());
+											subbase.add(sdb);
+										}
+									}
+								}
+							}catch(Exception ee){}							
+						}
+					}catch(Exception e){}					
 				}
 			}
 			return true;
 		}
 		return false;
 	}	
-	public static File getDBFolder(){
+	public File getDBFolder(){
 		return dbFolder;
 	}
 }
